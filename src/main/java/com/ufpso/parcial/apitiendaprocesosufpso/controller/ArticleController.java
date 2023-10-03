@@ -1,17 +1,22 @@
 package com.ufpso.parcial.apitiendaprocesosufpso.controller;
 
 import com.ufpso.parcial.apitiendaprocesosufpso.model.Article;
+import com.ufpso.parcial.apitiendaprocesosufpso.model.Category;
 import com.ufpso.parcial.apitiendaprocesosufpso.service.ArticleService;
+import com.ufpso.parcial.apitiendaprocesosufpso.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("article/{id}")
     public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
@@ -32,12 +37,18 @@ public class ArticleController {
 
     @PostMapping("article")
     public ResponseEntity<Article> create(@RequestBody Article article) {
-        if (article != null && article.getNombre() != null && article.getPrecio() != null) {
-            Article createdArticle = articleService.createArticle(article);
-            return new ResponseEntity<>(createdArticle, HttpStatus.CREATED);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        List<Category> CategoryDB = categoryService.getAllCategory();
+        if(CategoryDB.size() == 0)
+            return null;
+        for (Category category: CategoryDB)
+            if (article.getCategoria().equals(category.getNombre()))
+                if (article.getNombre() != null && article.getPrecio() != null && article.getDescripcion() != null) {
+                    Article createdArticle = articleService.createArticle(article);
+                    return new ResponseEntity<>(createdArticle, HttpStatus.CREATED);
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+        return null;
     }
 
 

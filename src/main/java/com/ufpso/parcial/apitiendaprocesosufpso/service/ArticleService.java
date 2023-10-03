@@ -6,38 +6,31 @@ import com.ufpso.parcial.apitiendaprocesosufpso.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
     private CategoryService categoryService;
 
     public Article createArticle(Article articleReq) {
-        List<Category> CategoryDB = categoryService.getAllCategory();
-        if (CategoryDB == null)
-            return null;
-        for(Category category : CategoryDB){
-            if((category.getNombre()).equals(articleReq.getNombre()))
-                return articleRepository.save(articleReq);
-        }
-        return null;
+        return articleRepository.save(articleReq);
     }
 
     public Article getArticleById(Long id) {
-        Article article = articleRepository.findById(id).get();
-        if (article != null)
-            return article;
-        return null;
+        Optional<Article> article = articleRepository.findById(id);
+        if (article.isEmpty())
+            return null;
+        return article.get();
     }
 
     public List<Article> getAllArticle() {
-        List<Article> allArticle = (List<Article>) articleRepository.findAll();
-        if(allArticle != null)
-            return allArticle;
-        return null;
+        return (List<Article>) articleRepository.findAll();
     }
 
     public Article updateArticle(Article ArticleReq, Long id) {
@@ -55,5 +48,14 @@ public class ArticleService {
         }
         articleRepository.delete(ArticleDB.get());
         return true;
+    }
+
+    public List<Article> getByCategory(String category){
+        List<Article> articles = (List<Article>) articleRepository.findAll();
+        List<Article> aux = new ArrayList<>();
+        for (Article article : articles)
+            if(article.getCategoria().equals(category))
+                aux.add(article);
+        return aux;
     }
 }

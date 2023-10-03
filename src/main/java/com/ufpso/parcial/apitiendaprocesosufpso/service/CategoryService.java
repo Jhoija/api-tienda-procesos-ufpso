@@ -19,7 +19,10 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).get();
+        Optional<Category> category =categoryRepository.findById(id);
+        if (category.isEmpty())
+            return null;
+        return category.get();
     }
 
     public List<Category> getAllCategory() {

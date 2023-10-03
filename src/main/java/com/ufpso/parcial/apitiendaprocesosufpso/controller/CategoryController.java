@@ -2,6 +2,7 @@ package com.ufpso.parcial.apitiendaprocesosufpso.controller;
 
 import com.ufpso.parcial.apitiendaprocesosufpso.model.Article;
 import com.ufpso.parcial.apitiendaprocesosufpso.model.Category;
+import com.ufpso.parcial.apitiendaprocesosufpso.service.ArticleService;
 import com.ufpso.parcial.apitiendaprocesosufpso.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,13 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ArticleService articleService;
 
     @GetMapping("category/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
+    public ResponseEntity<List<Article>> getCategoryById(@PathVariable Long id) {
+        Category category = categoryService.getCategoryById(id);
+        return ResponseEntity.ok(articleService.getByCategory(category.getNombre()));
     }
 
     @GetMapping("category/list")
