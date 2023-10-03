@@ -2,6 +2,7 @@ package com.ufpso.parcial.apitiendaprocesosufpso.service;
 
 import com.ufpso.parcial.apitiendaprocesosufpso.model.Category;
 import com.ufpso.parcial.apitiendaprocesosufpso.model.Category;
+import com.ufpso.parcial.apitiendaprocesosufpso.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     @Autowired
-    private com.ufpso.parcial.apitiendaprocesosufpso.repository.CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     public Category createCategory(Category CategoryReq) {
         return categoryRepository.save(CategoryReq);

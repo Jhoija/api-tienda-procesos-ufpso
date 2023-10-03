@@ -1,5 +1,6 @@
 package com.ufpso.parcial.apitiendaprocesosufpso.controller;
 
+import com.ufpso.parcial.apitiendaprocesosufpso.model.Article;
 import com.ufpso.parcial.apitiendaprocesosufpso.model.Category;
 import com.ufpso.parcial.apitiendaprocesosufpso.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class CategoryController {
 
     @PostMapping("category")
     public ResponseEntity<Category> create(@RequestBody Category category) {
+        System.out.println(category.getClass().getName());
         return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.CREATED);
     }
 

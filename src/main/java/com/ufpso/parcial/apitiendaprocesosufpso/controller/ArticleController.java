@@ -15,26 +15,45 @@ public class ArticleController {
 
     @GetMapping("article/{id}")
     public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
-        return ResponseEntity.ok(articleService.getArticleById(id));
+        Article article = articleService.getArticleById(id);
+        if(article != null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(article);
     }
 
     @GetMapping("article/list")
     public ResponseEntity<List<Article>> getAllArticle() {
-        return ResponseEntity.ok(articleService.getAllArticle());
+        List<Article> articles = articleService.getAllArticle();
+        if (articles.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(articles);
     }
 
     @PostMapping("article")
     public ResponseEntity<Article> create(@RequestBody Article article) {
-        return new ResponseEntity<>(articleService.createArticle(article), HttpStatus.CREATED);
+        if (article != null && article.getNombre() != null && article.getPrecio() != null) {
+            Article createdArticle = articleService.createArticle(article);
+            return new ResponseEntity<>(createdArticle, HttpStatus.CREATED);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
+
 
     @PutMapping("article/update/{id}")
     public ResponseEntity<Article> update(@RequestBody Article article, @PathVariable Long id ) {
-        return new ResponseEntity<>(articleService.updateArticle(article,id),HttpStatus.OK);
+        Article updatedArticle = articleService.updateArticle(article, id);
+        if (updatedArticle == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedArticle);
     }
 
     @DeleteMapping("article/{id}")
     public ResponseEntity<List<Article>> delete(@PathVariable Long id ) {
-        return new ResponseEntity(articleService.deleteArticle(id),HttpStatus.NO_CONTENT);
+        if (!articleService.deleteArticle(id))
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 }
