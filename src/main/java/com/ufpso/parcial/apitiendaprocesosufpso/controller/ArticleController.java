@@ -1,6 +1,6 @@
 package com.ufpso.parcial.apitiendaprocesosufpso.controller;
 
-import com.ufpso.parcial.apitiendaprocesosufpso.controller.model.Article;
+import com.ufpso.parcial.apitiendaprocesosufpso.model.Article;
 import com.ufpso.parcial.apitiendaprocesosufpso.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

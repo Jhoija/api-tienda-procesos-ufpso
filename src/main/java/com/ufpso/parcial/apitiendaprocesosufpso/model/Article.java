@@ -1,4 +1,4 @@
-package com.ufpso.parcial.apitiendaprocesosufpso.controller.model;
+package com.ufpso.parcial.apitiendaprocesosufpso.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

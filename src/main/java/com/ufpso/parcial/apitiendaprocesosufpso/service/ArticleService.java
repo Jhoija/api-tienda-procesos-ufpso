@@ -1,7 +1,6 @@
 package com.ufpso.parcial.apitiendaprocesosufpso.service;
 
-import com.ufpso.parcial.apitiendaprocesosufpso.controller.model.Article;
-import com.ufpso.parcial.apitiendaprocesosufpso.repository.ArticleRepository;
+import com.ufpso.parcial.apitiendaprocesosufpso.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
