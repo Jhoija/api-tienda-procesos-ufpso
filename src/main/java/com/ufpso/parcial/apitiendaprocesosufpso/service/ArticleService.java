@@ -19,6 +19,10 @@ public class ArticleService {
     private CategoryService categoryService;
 
     public Article createArticle(Article articleReq) {
+        List<Article> category = (List<Article>) articleRepository.findAll();
+        for (Article article : category)
+            if(article.getDescripcion().equals(articleReq.getDescripcion()))
+                return null;
         return articleRepository.save(articleReq);
     }
 
